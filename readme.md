@@ -32,4 +32,48 @@ We will be making use of the containerized solution of IBM MQ because it has all
 
         docker pull ibmcom/mq:latest
 
+The next step is to create a docker volume where our queue data will be stored for reference purpose. run:
+
+    docker volume create qm1data
+
+Spin up a container: 
+
+    docker run --env LICENSE=accept --env MQ_QMGR_NAME=MQ1 --volume=qm1data:/mnt/mgm --publish 1414:1414 --publish 9443:9443 --detach --env MQ_APP_PASSWORD=passw0rd ibmcom/mq:latest
+
+MQ_QMGR_NAME=MQ1: queue manager called MQ!
+--publish 1414:1414= port where applications use to reach mq
+port 9443: port to mq console
+
+After creating our container we can enter into the container using the exec and bash command:
+
+    docker exec -t <container-name> bash
+
+Components of Message Queues:
+
+Message involves thing you want your applications to send to make stuffs happen in MQ. It involves:
+
+- payload which is the data we want to send  e.g "update database", or "run this applcation".
+- Message Descriptor which have control over the information that gets used to process the message.
+- Message properties contains information which you can specify in your messagibg app.
+- messages can be set to be persistent and resistent to failures when we use ibm mq in production environment.
+- You will also need a messaging endpoint to be able to send and recieve messages. 
+
+Queues: this is where we store messages until it is taken.
+
+Event driven messaging: having applications communicate with each other
+
+Exactly-once messaging: When we put a single message on the queue and we want it consumed once at the other end. it is also referred to as point to point messaging.
+
+Publish-and-subscribe messaging: is a kind of messaging that involves programming pattern for building event driven decoupled applications. Put a message to a topic and watch it get consumed by multiple apps.
+Queue Manager: a queue manager can be seen as the brain of the system that acts as a server for messaging. they host the queues and topics.they are siply the MQ servers that host the queues.
+
+MQ networks: are loose collections of interconnected queue managers, all working together to deliver messages between applications and locations.
+channels: are ovject that are used to send messages from place to place and how queue managers communicate wtih each other.
+MQ clusters are tight couplings of queue managers, enabling higher levels of scaling and availability. They help to:
+- balance application loads
+- data replication
+- use standby
+- queue managers.
+
+
 
