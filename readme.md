@@ -75,5 +75,60 @@ MQ clusters are tight couplings of queue managers, enabling higher levels of sca
 - use standby
 - queue managers.
 
+Point to point messaging: sending messages between two different applications. The message can be configured to be sent exactly once. Most like scenario where point to point messaging comes in place is an online store where people make purchase of different items, at every order the database needs to be updated. This update will take place one after the other so that there won't be any loss of data.
 
+Publish and subscribe: it's an event driven pattern, when an event happend, it sends a publication to a topic. a subsriber can be any application that is interested in the message being sent.
+
+Request-response messaging: is built on top point to point messaging. A point to point message is sent to a consuming application and you want a reply back. Using a request response queue lets you have a decoupled application so that they are not dependent on each other.
+
+Message Expiry: setting up a message to be used or processed within a certain amount of time. This is useful when you're dealing with information that needs to be current.
+
+Messaging is made up of simple components 
+you can build powerful solutions 
+Your messaging software takes care of the details.
+
+Moving on, here's how we can fit IBM MQ into your application code. If you want your app to do something real quick you are forced to use REST but you wont get asynchronous messaging, short delivery and you won't use powerful messaging transaction patterns.
+
+For a better solution:
+- write messaging code to an API
+- This calls messaging client libraries
+- It also takes a lot of work for you.
+
+The messaging code will:
+- Communicate with queues
+- use powerfull messaging patterns
+- deal with security
+
+Developing a point-to-point app with JMS and IBM MQ.
+
+For this test we will be using JMS for java 2 platform.
+JMS stands for java messaging service. The JMS API is implemented by messaging service providers like IBM MQ to allow JMS client applications to access the provider's messaging service. 
+
+Steps:
+- a queue will be created.
+- a message will be sent into the queque, ready to be consumed.
+- an application to consume the message.
+- Impplement JMS API to your application to connect with ibm(messaging provider).
+
+With the JMS API, our application will be able to:
+
+  -  Connect to the queue manager
+  - Open a queue
+  - Put a message
+  - Get a message
+  - Close the queue
+  - Disconnect from the queue manager
+
+When we created our MQ server running in our container, we created it with a queue manager called MQ1. you can view this on your ibm console on:
+https://localhost:9443/ibmmq/console
+
+to login: username: admin, password: passw0rd
+
+A queue and channel were also created during server deployment. (this only comes with the containerized version)
+
+resources created:
+
+    Queue manager QM1
+    Queue DEV.QUEUE.1
+    Channel DEV.APP.SVRCONN (For IBM Cloud users: Channel CLOUD.APP.SVRCONN)
 
